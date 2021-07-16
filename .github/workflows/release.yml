@@ -1,7 +1,8 @@
 name: Package Electron
 on:
-  repository_dispatch:
-    types: [trigger-release]
+  workflow_run:
+    workflows: ["Bump Version"]
+    types: [completed]
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -15,4 +16,5 @@ jobs:
         id: package-node-version
 
       - name: Show node version number
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         run: echo "Version is ${{ steps.package-node-version.outputs.version }}"
