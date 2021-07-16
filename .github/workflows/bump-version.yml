@@ -1,0 +1,23 @@
+name: Bump Version
+on:
+  push:
+    branches:
+      - main
+jobs:
+  bump:
+  - uses: actions/checkout@v2
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+  - name:  'Automated Version Bump'
+    if: steps.check.outputs.changed == 'false'
+    uses:  'phips28/gh-action-bump-version@master'
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      skip-tag:  'true'
+  - name: Trigger release workflow
+    uses: peter-evans/repository-dispatch@v1
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      repository: ${{ github.repository }}
+      event-type: trigger-release
