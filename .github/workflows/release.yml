@@ -6,6 +6,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -16,5 +17,5 @@ jobs:
         id: package-node-version
 
       - name: Show node version number
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        
         run: echo "Version is ${{ steps.package-node-version.outputs.version }}"
