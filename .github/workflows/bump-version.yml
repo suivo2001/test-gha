@@ -5,6 +5,7 @@ on:
       - main
 jobs:
   bump:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
         with:
